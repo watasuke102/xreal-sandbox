@@ -13,8 +13,10 @@ public class CubeManipulator : MonoBehaviour
 {
   [SerializeField] float speed = 50.0f;
   [SerializeField] float move_start_threshold = 0.005f;
+  [SerializeField] float max_click_duration = 0.2f;
 
   bool is_first_click = true;
+  float click_start_time;
   ObjectBase selected = null;
   CurrentMoveMode currentMoveMode = CurrentMoveMode.None;
 
@@ -23,7 +25,6 @@ public class CubeManipulator : MonoBehaviour
     NRInput.AddDownListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputDown);
     NRInput.AddPressingListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputPressing);
     NRInput.AddUpListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputUp);
-    NRInput.AddClickListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputClick);
   }
   void Update()
   {
@@ -63,6 +64,7 @@ public class CubeManipulator : MonoBehaviour
 
   void HandleInputDown()
   {
+    this.click_start_time = Time.time;
     RaycastHit hit;
     var anchor = NRInput.AnchorsHelper.GetAnchor(ControllerAnchorEnum.RightLaserAnchor);
     if (Physics.Raycast(anchor.transform.position, anchor.transform.forward, out hit))
@@ -114,6 +116,16 @@ public class CubeManipulator : MonoBehaviour
   }
   void HandleInputUp()
   {
+    if (this.is_first_click)
+    {
+      this.is_first_click = false;
+      return;
+    }
+    if (this.selected && this.currentMoveMode == CurrentMoveMode.None &&
+      (Time.time - this.click_start_time) < this.max_click_duration)
+    {
+      this.RemoveSelection();
+    }
     this.currentMoveMode = CurrentMoveMode.None;
   }
   void HandleInputClick()
