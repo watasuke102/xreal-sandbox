@@ -9,7 +9,7 @@ enum CurrentMoveMode
   None, Theta, Phi
 }
 
-public class CubeManipulator : MonoBehaviour
+public class ObjectManipulator : MonoBehaviour
 {
   [SerializeField] float speed = 50.0f;
   [SerializeField] float move_start_threshold = 0.005f;

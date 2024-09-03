@@ -529,7 +529,7 @@ GameObject:
   - component: {fileID: 1092368721}
   - component: {fileID: 1092368722}
   m_Layer: 0
-  m_Name: CubeManipulator
+  m_Name: ObjectManipulator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,7 +563,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  threshold: 0.005
+  move_start_threshold: 0.005
+  max_click_duration: 0.2
 --- !u!1 &1137949143
 GameObject:
   m_ObjectHideFlags: 0
