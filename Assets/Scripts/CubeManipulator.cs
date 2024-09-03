@@ -40,10 +40,14 @@ public class CubeManipulator : MonoBehaviour
       {
         if (this.selected == hit.transform.gameObject)
         {
-          this.RemoveSelection();
+          // exit handler for now, removing process will be executed in HandleInputClick when tapping is completed
           return;
         }
-        this.RemoveSelection();
+        else
+        {
+          // start re-sellecting
+          this.RemoveSelection();
+        }
       }
       Debug.DrawRay(anchor.transform.position, anchor.transform.forward * 1000, Color.yellow);
       this.is_first_click = true;
