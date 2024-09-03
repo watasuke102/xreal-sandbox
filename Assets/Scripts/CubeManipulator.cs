@@ -4,30 +4,61 @@ using UnityEngine;
 using NRKernal;
 using Unity.VisualScripting;
 
+enum CurrentMoveMode
+{
+  None, Theta, Phi
+}
+
 public class CubeManipulator : MonoBehaviour
 {
-  [SerializeField] float unselect_delta = 0.3f;
+  [SerializeField] float speed = 50.0f;
+  [SerializeField] float move_start_threshold = 0.005f;
 
   bool is_first_click = true;
-  GameObject selected = null;
+  ObjectBase selected = null;
+  CurrentMoveMode currentMoveMode = CurrentMoveMode.None;
 
   void Start()
   {
     NRInput.AddDownListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputDown);
+    NRInput.AddPressingListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputPressing);
+    NRInput.AddUpListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputUp);
     NRInput.AddClickListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputClick);
   }
   void Update()
   {
-    if (this.selected)
+    if (!this.selected) { return; }
+    switch (this.currentMoveMode)
     {
-      // Debug.Log(NRInput.GetDeltaTouch().x);
+      case CurrentMoveMode.Phi:
+        this.selected.AddPhi(NRInput.GetDeltaTouch().x * this.speed);
+        break;
+      case CurrentMoveMode.Theta:
+        this.selected.AddTheta(NRInput.GetDeltaTouch().y * this.speed);
+        break;
     }
+    this.selected.ApplyTransform();
   }
 
   void RemoveSelection()
   {
-    this.selected.transform.GetComponent<MeshRenderer>().material.color = Color.white;
+    this.currentMoveMode = CurrentMoveMode.None;
+    SetSelectedColor(Color.white);
     this.selected = null;
+  }
+  void SetSelectedColor(Color color)
+  {
+    if (!this.selected) { return; }
+    try
+    {
+      foreach (var child in this.selected.GetComponentsInChildren<MeshRenderer>())
+      {
+        child.material.color = color;
+      }
+      this.selected.transform.GetComponent<MeshRenderer>().material.color = color;
+    }
+    catch (System.Exception)
+    { }
   }
 
   void HandleInputDown()
@@ -38,7 +69,7 @@ public class CubeManipulator : MonoBehaviour
     {
       if (this.selected)
       {
-        if (this.selected == hit.transform.gameObject)
+        if (this.selected.gameObject == hit.transform.gameObject)
         {
           // exit handler for now, removing process will be executed in HandleInputClick when tapping is completed
           return;
@@ -51,9 +82,39 @@ public class CubeManipulator : MonoBehaviour
       }
       Debug.DrawRay(anchor.transform.position, anchor.transform.forward * 1000, Color.yellow);
       this.is_first_click = true;
-      this.selected = hit.transform.gameObject;
-      this.selected.transform.GetComponent<MeshRenderer>().material.color = Color.green;
+      try
+      {
+        this.selected = hit.transform.GetComponent<ObjectBase>();
+      }
+      catch (System.Exception)
+      {
+        return;
+      }
+      this.SetSelectedColor(Color.green);
     }
+  }
+  void HandleInputPressing()
+  {
+    var delta_x = Mathf.Abs(NRInput.GetDeltaTouch().x);
+    var delta_y = Mathf.Abs(NRInput.GetDeltaTouch().y);
+    if (this.currentMoveMode != CurrentMoveMode.None || (delta_x + delta_y) < move_start_threshold)
+    {
+      return;
+    }
+
+    if (delta_x > delta_y)
+    {
+      this.currentMoveMode = CurrentMoveMode.Phi;
+    }
+    else
+    {
+      this.currentMoveMode = CurrentMoveMode.Theta;
+    }
+    Debug.Log($"({delta_x}, {delta_y}) -> Mode Initialized : {this.currentMoveMode}");
+  }
+  void HandleInputUp()
+  {
+    this.currentMoveMode = CurrentMoveMode.None;
   }
   void HandleInputClick()
   {
@@ -67,5 +128,4 @@ public class CubeManipulator : MonoBehaviour
       this.RemoveSelection();
     }
   }
-
 }
