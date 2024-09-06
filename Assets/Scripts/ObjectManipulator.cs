@@ -40,6 +40,10 @@ public class ObjectManipulator : MonoBehaviour
         this.tmp_angle.theta = NRInput.GetDeltaTouch().y * this.speed;
         this.tmp_angle.phi = 0;
         break;
+      default:
+        this.tmp_angle.theta = 0;
+        this.tmp_angle.phi = 0;
+        break;
     }
     this.selected.AddAngle(this.tmp_angle);
   }
