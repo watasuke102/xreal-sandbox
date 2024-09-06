@@ -19,6 +19,7 @@ public class ObjectManipulator : MonoBehaviour
   float click_start_time;
   ObjectBase selected = null;
   CurrentMoveMode currentMoveMode = CurrentMoveMode.None;
+  Angle tmp_angle;
 
   void Start()
   {
@@ -32,13 +33,15 @@ public class ObjectManipulator : MonoBehaviour
     switch (this.currentMoveMode)
     {
       case CurrentMoveMode.Phi:
-        this.selected.AddPhi(NRInput.GetDeltaTouch().x * this.speed);
+        this.tmp_angle.theta = 0;
+        this.tmp_angle.phi = NRInput.GetDeltaTouch().x * this.speed;
         break;
       case CurrentMoveMode.Theta:
-        this.selected.AddTheta(NRInput.GetDeltaTouch().y * this.speed);
+        this.tmp_angle.theta = NRInput.GetDeltaTouch().y * this.speed;
+        this.tmp_angle.phi = 0;
         break;
     }
-    this.selected.ApplyTransform();
+    this.selected.AddAngle(this.tmp_angle);
   }
 
   void RemoveSelection()

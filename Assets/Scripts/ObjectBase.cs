@@ -7,15 +7,7 @@ public class ObjectBase : MonoBehaviour
   [SerializeField] float initial_phi;
   static float theta_threshold = 20f;
   static float radius = 1.5f;
-  static float theta_max = 80f;
-  /// <summary>
-  /// polar angle within [-theta_max, theta_max] deg
-  /// </summary>
-  public float theta;
-  /// <summary>
-  /// azimuthal angle (in xz-plane)
-  /// </summary>
-  public float phi;
+  Angle angle;
 
   /// convert polar coordinate paramaters
   public void ApplyTransform()
@@ -23,30 +15,25 @@ public class ObjectBase : MonoBehaviour
     this.transform.position = Vector3.forward * radius;
     this.transform.rotation = Quaternion.identity;
     // either high or low enough
-    if (Mathf.Abs(this.theta) > theta_threshold)
+    if (Mathf.Abs(this.angle.theta) > theta_threshold)
     {
-      this.transform.RotateAround(Vector3.zero, Vector3.left, this.theta);
+      this.transform.RotateAround(Vector3.zero, Vector3.left, this.angle.theta);
     }
     else
     {
-      this.transform.position += Vector3.up * radius * Mathf.Sin(theta * Mathf.Deg2Rad);
+      this.transform.position += Vector3.up * radius * Mathf.Sin(this.angle.theta * Mathf.Deg2Rad);
     }
-    this.transform.RotateAround(Vector3.zero, Vector3.up, this.phi);
+    this.transform.RotateAround(Vector3.zero, Vector3.up, this.angle.phi);
   }
-  public void AddTheta(float amount)
+  public void AddAngle(Angle amount)
   {
-    this.theta = Mathf.Clamp(this.theta + amount, -theta_max, theta_max);
-    this.ApplyTransform();
-  }
-  public void AddPhi(float amount)
-  {
-    this.phi += amount;
+    this.angle += amount;
     this.ApplyTransform();
   }
 
   void Start()
   {
-    this.phi = this.initial_phi;
+    this.angle = new Angle(0, this.initial_phi);
     this.ApplyTransform();
   }
 }
