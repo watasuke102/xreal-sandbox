@@ -14,10 +14,13 @@ public struct Angle
   public float phi { get; set; }
 
   public Angle(float theta, float phi) { this.theta = theta; this.phi = phi; }
-  public Angle from_vec3(Vector3 from)
+  public static Angle from_pos(Vector3 from)
   {
     // [x, y, z] = [-cos(theta)sin(phi), sin(theta), cos(theta)cos(phi)]
-    return new Angle(Mathf.Asin(from.y), Mathf.Atan2(from.x, from.z));
+    var angle = new Angle(Mathf.Asin(from.y), Mathf.Atan2(from.x, from.z));
+    if (float.IsNaN(angle.theta)) { angle.theta = 0; }
+    if (float.IsNaN(angle.phi)) { angle.phi = 0; }
+    return angle;
   }
   public static Angle operator +(Angle a, Angle b)
   {
@@ -26,4 +29,5 @@ public struct Angle
       a.phi + b.phi
     );
   }
+  public override string ToString() => $"(theta={theta:F4}, phi={phi:F4})";
 }

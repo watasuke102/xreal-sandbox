@@ -9,7 +9,7 @@ enum CurrentMoveMode
   None, Theta, Phi
 }
 
-public class ObjectManipulator : MonoBehaviour
+public class ObjectSelectManipulator : MonoBehaviour
 {
   [SerializeField] float speed = 50.0f;
   [SerializeField] float move_start_threshold = 0.005f;
