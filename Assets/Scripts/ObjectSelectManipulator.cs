@@ -47,6 +47,12 @@ public class ObjectSelectManipulator : MonoBehaviour
     }
     this.selected.AddAngle(this.tmp_angle);
   }
+  void OnDestroy()
+  {
+    NRInput.RemoveDownListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputDown);
+    NRInput.RemovePressingListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputPressing);
+    NRInput.RemoveUpListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputUp);
+  }
 
   void RemoveSelection()
   {

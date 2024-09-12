@@ -30,6 +30,12 @@ public class ObjectGrabManipulator : MonoBehaviour
     var anchor = NRInput.AnchorsHelper.GetAnchor(ControllerAnchorEnum.RightLaserAnchor);
     this.text.text = $"{anchor.transform.forward,5:F3}";
   }
+  void OnDestroy()
+  {
+    NRInput.RemoveDownListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputDown);
+    NRInput.RemovePressingListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputPressing);
+    NRInput.RemoveUpListener(ControllerHandEnum.Right, ControllerButton.TRIGGER, HandleInputUp);
+  }
 
   void RemoveSelection()
   {

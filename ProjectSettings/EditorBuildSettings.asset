@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Entrypoint.unity
+    guid: 342bef1fa28d0a548a18607aee24d2e3
+  - enabled: 1
     path: Assets/Scenes/CallCpp.unity
     guid: 650bfcb3373a5524794e674ddf891fad
+  - enabled: 1
+    path: Assets/Scenes/GrabMoveObject.unity
+    guid: 3915ce1bf89e4f8489c2f2eb2d9a89df
+  - enabled: 1
+    path: Assets/Scenes/SelectSlideMoveObject.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
