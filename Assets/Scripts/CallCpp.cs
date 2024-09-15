@@ -10,21 +10,14 @@ public class CallCpp : MonoBehaviour
   [SerializeField] GameObject labelObj;
 
 #if UNITY_EDITOR
-  [DllImport("cppadd")]
+  [DllImport("cppadd-x86_64")]
 #else
-  [DllImport("__Internal")]
+  [DllImport("cppadd-aarch64")]
 #endif
   private static extern Int32 cpp_add(Int32 x, Int32 y);
 
   public void Calc()
   {
-    Debug.Log(
-#if UNITY_EDITOR
-  "cppadd"
-#else
-  "__Internal"
-#endif
-      );
     var label = this.labelObj.GetComponent<TextMeshProUGUI>();
     try
     {
