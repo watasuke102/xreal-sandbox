@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class SceneSelectMenu : MonoBehaviour
 {
   public void LoadCallCpp() { Load("CallCpp"); }
+  public void LoadCallDrawLib() { Load("CallDrawLib"); }
   public void LoadGrabMoveObject() { Load("GrabMoveObject"); }
   public void LoadSelectSlideMoveObject() { Load("SelectSlideMoveObject"); }
 
