@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/CameraOverride.unity
+    guid: c7833947fc7c92e5e9614e3fac9c29a5
+  - enabled: 1
     path: Assets/Scenes/CallDrawLib.unity
     guid: 4ab0cfb11f42a64618f79bb53c768d18
   - enabled: 1
