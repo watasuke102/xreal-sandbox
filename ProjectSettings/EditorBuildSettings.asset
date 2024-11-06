@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/DispCameraStatus.unity
+    guid: 1abc62ad2d235dbd8b7a6d93b11d4b8e
+  - enabled: 1
     path: Assets/Scenes/CameraOverride.unity
     guid: c7833947fc7c92e5e9614e3fac9c29a5
   - enabled: 1
