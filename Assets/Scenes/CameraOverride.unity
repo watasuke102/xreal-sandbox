@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &961583871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 961583873}
+  - component: {fileID: 961583872}
+  m_Layer: 0
+  m_Name: Drawer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &961583872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961583871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aebffce25c05c2a3483b0eb454be5e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &961583873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961583871}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3688831, y: -8.901535, z: 71.14737}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1554902131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220,6 +264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawer: {fileID: 961583872}
+  is_left_side_camera: 0
 --- !u!114 &1554902136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawer: {fileID: 0}
+  is_left_side_camera: 0
 --- !u!114 &1554902137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawer: {fileID: 961583872}
+  is_left_side_camera: 1
 --- !u!1001 &1667743994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -307,3 +357,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1667743994}
   - {fileID: 1554902131}
+  - {fileID: 961583873}

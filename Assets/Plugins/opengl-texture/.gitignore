@@ -1,0 +1,3 @@
+build/*
+!jni/
+compile_flags.txt
