@@ -1,34 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class OverrideCamera : MonoBehaviour
 {
   [SerializeField] Drawer drawer;
-  [SerializeField] bool is_left_side_camera;
-
   Texture2D texture = null;
+  UInt32 texture_id = 0;
 
   void Start()
   {
-    Debug.Log(drawer.GetTexture(this.is_left_side_camera));
   }
   void Update()
   {
-    if (texture) return;
     var cam = GetComponent<Camera>();
     if (!cam) return;
-    Debug.Log(cam.name + ": " + cam.pixelWidth + ", " + cam.pixelHeight);
-    texture = new Texture2D(cam.pixelWidth, cam.pixelHeight);
-    Color c = is_left_side_camera ? new Color(0.88f, 0.42f, 0.46f) : new Color(0.60f, 0.76f, 0.48f);
-    for (int x = 0; x < cam.pixelWidth; ++x)
+
+    if (!texture)
     {
-      for (int y = 0; y < cam.pixelHeight; ++y)
+      Debug.Log(cam.name + ": " + cam.pixelWidth + ", " + cam.pixelHeight);
+      texture = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGBA32, false);
+      texture.filterMode = FilterMode.Point;
+      Color c = new Color(0.60f, 0.76f, 0.48f);
+      for (int x = 0; x < cam.pixelWidth; ++x)
       {
-        texture.SetPixel(x, y, c);
+        for (int y = 0; y < cam.pixelHeight; ++y)
+        {
+          texture.SetPixel(x, y, c);
+        }
       }
+      texture.Apply();
+      texture_id = drawer.RegisterTexture(texture);
+      Debug.Log(">>> registerd : " + texture_id);
     }
-    texture.Apply();
+
+    var m = transform.localToWorldMatrix;
+    var v = cam.worldToCameraMatrix;
+    var p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, true);
+    var mvp_mat = p * v * m;
+    drawer.SetMVP(texture_id, mvp_mat);
   }
 
   void OnRenderImage(RenderTexture _, RenderTexture dst)
