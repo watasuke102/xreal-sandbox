@@ -40,7 +40,8 @@ public class DispCameraStatus : MonoBehaviour
     text += "[vp]\n" + vp.ToString() + "\n";
     text += "[v]\n" + v.ToString();
     text += "[p]\n" + p.ToString();
-    text += "\n" + cam.transform.eulerAngles.ToString();
+    text += "\n[Quat ] " + cam.transform.rotation.ToString();
+    text += "\n[Euler] " + cam.transform.eulerAngles.ToString();
     this.label.text = text;
     Debug.Log(text);
   }
