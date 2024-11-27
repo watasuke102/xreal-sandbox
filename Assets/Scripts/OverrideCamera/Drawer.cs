@@ -5,30 +5,65 @@ using UnityEngine;
 
 public class Drawer : MonoBehaviour
 {
+#if UNITY_EDITOR
+  [DllImport("drawer")]
+#else
   [DllImport("drawer_android")]
+#endif
   private static extern UInt32 register_texture(System.IntPtr texture, Int32 width, Int32 height);
+
+#if UNITY_EDITOR
+  [DllImport("drawer")]
+#else
   [DllImport("drawer_android")]
-  private static extern void set_mvp(UInt32 id,//
+#endif
+  private static extern void set_vp(UInt32 id,//
            float x0, float y0, float z0, float w0, //
            float x1, float y1, float z1, float w1, //
            float x2, float y2, float z2, float w2, //
            float x3, float y3, float z3, float w3  //
   );
+
+#if UNITY_EDITOR
+  [DllImport("drawer")]
+#else
   [DllImport("drawer_android")]
+#endif
   private static extern IntPtr get_render_handler_ptr();
 
-  public UInt32 RegisterTexture(Texture2D texture)
+#if UNITY_EDITOR
+  [DllImport("drawer")]
+#else
+  [DllImport("drawer_android")]
+#endif
+  private static extern void unregister_texture(UInt32 id);
+
+  public UInt32 RegisterTexture(ref Texture2D texture)
   {
     return register_texture(texture.GetNativeTexturePtr(), texture.width, texture.height);
   }
-  public void SetMVP(UInt32 texture_id, Matrix4x4 mvp)
+  public void UnregisterTexture(UInt32 id)
   {
-    set_mvp(
+    unregister_texture(id);
+  }
+  public void SetVP(UInt32 texture_id, Matrix4x4 vp)
+  {
+    set_vp(
       texture_id, //
-      mvp[0, 0], mvp[0, 1], mvp[0, 2], mvp[0, 3],
-      mvp[1, 0], mvp[1, 1], mvp[1, 2], mvp[1, 3],
-      mvp[2, 0], mvp[2, 1], mvp[2, 2], mvp[2, 3],
-      mvp[3, 0], mvp[3, 1], mvp[3, 2], mvp[3, 3]
+                  vp[0, 0], vp[0, 1], vp[0, 2], vp[0, 3],
+                  vp[1, 0], vp[1, 1], vp[1, 2], vp[1, 3],
+                  vp[2, 0], vp[2, 1], vp[2, 2], vp[2, 3],
+                  vp[3, 0], vp[3, 1], vp[3, 2], vp[3, 3]
+    // glm::mat4 view_mat =
+    //     glm::lookAt({0.f, 0.f, 2.f}, glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+    // glm::mat4 proj_mat = glm::perspective(
+    //     glm::pi<float>() / 3, (float)WIDTH / HEIGHT, 0.01f, 100.f
+    // );
+    // proj_mat * view_mat = <below>
+    // 1.299038f, 0.000000f, 0.000000f, 0.000000f,    //
+    // 0.000000f, 1.732051f, 0.000000f, 0.000000f,    //
+    // 0.000000f, 0.000000f, -1.000200f, -1.000000f,  //
+    // 0.000000f, 0.000000f, 1.980398f, 2.000000f     //
     );
   }
 

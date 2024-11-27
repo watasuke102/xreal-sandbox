@@ -232,7 +232,7 @@ PrefabInstance:
       addedObject: {fileID: 1554902137}
     - targetCorrespondingSourceObject: {fileID: 1713578656367708, guid: 665d8158924bd2648a94fb3f87691bbb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1554902136}
+      addedObject: {fileID: 1554902143}
     - targetCorrespondingSourceObject: {fileID: 1831472376678662, guid: 665d8158924bd2648a94fb3f87691bbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1554902135}
@@ -265,21 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawer: {fileID: 961583872}
-  is_left_side_camera: 0
---- !u!114 &1554902136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554902133}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawer: {fileID: 0}
-  is_left_side_camera: 0
+  eye_type: 2
 --- !u!114 &1554902137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +279,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawer: {fileID: 961583872}
-  is_left_side_camera: 1
+  eye_type: 0
+--- !u!114 &1554902143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554902133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawer: {fileID: 961583872}
+  eye_type: 1
 --- !u!1001 &1667743994
 PrefabInstance:
   m_ObjectHideFlags: 0
