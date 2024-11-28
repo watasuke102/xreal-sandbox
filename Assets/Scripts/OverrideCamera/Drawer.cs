@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using NRKernal;
 using UnityEngine;
 
 public class Drawer : MonoBehaviour
@@ -48,12 +49,17 @@ public class Drawer : MonoBehaviour
   }
   public void SetVP(UInt32 texture_id, Matrix4x4 vp)
   {
+    Debug.Log("From Unity > tex id, vp mat = " + texture_id + "\n" + vp.ToString());
     set_vp(
       texture_id, //
-                  vp[0, 0], vp[0, 1], vp[0, 2], vp[0, 3],
-                  vp[1, 0], vp[1, 1], vp[1, 2], vp[1, 3],
-                  vp[2, 0], vp[2, 1], vp[2, 2], vp[2, 3],
-                  vp[3, 0], vp[3, 1], vp[3, 2], vp[3, 3]
+    vp[0, 0], vp[0, 1], vp[0, 2], vp[0, 3],
+    vp[1, 0], vp[1, 1], vp[1, 2], vp[1, 3],
+    vp[2, 0], vp[2, 1], vp[2, 2], vp[2, 3],
+    vp[3, 0], vp[3, 1], vp[3, 2], vp[3, 3]
+    // vp[0, 0], vp[1, 0], vp[2, 0], vp[3, 0], //
+    // vp[0, 1], vp[1, 1], vp[2, 1], vp[3, 1], //
+    // vp[0, 2], vp[1, 2], vp[2, 2], vp[3, 2], //
+    // vp[0, 3], vp[1, 3], vp[2, 3], vp[3, 3] //
     // glm::mat4 view_mat =
     //     glm::lookAt({0.f, 0.f, 2.f}, glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
     // glm::mat4 proj_mat = glm::perspective(
@@ -70,6 +76,18 @@ public class Drawer : MonoBehaviour
   IEnumerator Start()
   {
     yield return StartCoroutine(draw_coroutine());
+  }
+  int app_clicked = 0;
+  void Update()
+  {
+    if (NRInput.GetButtonDown(ControllerButton.APP))
+    {
+      ++app_clicked;
+      if (app_clicked >= 2)
+      {
+        Application.Quit();
+      }
+    }
   }
   private IEnumerator draw_coroutine()
   {

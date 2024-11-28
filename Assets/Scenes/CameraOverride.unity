@@ -167,6 +167,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1110244266 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1668515225578100, guid: 665d8158924bd2648a94fb3f87691bbb, type: 3}
+  m_PrefabInstance: {fileID: 1554902131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1554902131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -266,6 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawer: {fileID: 961583872}
   eye_type: 2
+  rotation_src: {fileID: 1110244266}
 --- !u!114 &1554902137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawer: {fileID: 961583872}
   eye_type: 0
+  rotation_src: {fileID: 1110244266}
 --- !u!114 &1554902143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawer: {fileID: 961583872}
   eye_type: 1
+  rotation_src: {fileID: 1110244266}
 --- !u!1001 &1667743994
 PrefabInstance:
   m_ObjectHideFlags: 0
