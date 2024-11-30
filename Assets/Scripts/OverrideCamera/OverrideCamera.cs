@@ -11,35 +11,36 @@ public class OverrideCamera : MonoBehaviour
 {
   [SerializeField] Drawer drawer;
   [SerializeField] EyeType eye_type;
-  Texture2D texture = null;
+  Camera cam;
+
+  RenderTexture texture;
   UInt32 texture_id = 0;
 
   void Start()
   {
+    this.cam = GetComponent<Camera>();
+    var width = this.cam.pixelWidth;
+    var height = this.cam.pixelHeight;
+    Debug.Log("[New Camera] " + this.cam.name + ": " + width + ", " + height);
+
+    texture = new RenderTexture(width, height, 32, RenderTextureFormat.ARGB32);
+    texture.filterMode = FilterMode.Point;
+    texture.depthStencilFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.D24_UNorm_S8_UInt;
+    texture.Create();
   }
   void Update()
   {
-    var cam = GetComponent<Camera>();
-    if (!cam) return;
-
-    if (!texture)
+    if (texture_id == 0)
     {
-      var width = cam.pixelWidth;
-      var height = cam.pixelHeight;
-      Debug.Log("[New Camera] " + cam.name + ": " + width + ", " + height);
-      texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
-      texture.filterMode = FilterMode.Point;
-      Color c = new Color(0.60f, 0.76f, 0.48f);
-      for (int x = 0; x < width; ++x)
+      if (texture.IsCreated())
       {
-        for (int y = 0; y < height; ++y)
-        {
-          texture.SetPixel(x, y, c);
-        }
+        texture_id = drawer.RegisterTexture(ref texture);
+        Debug.Log(">>> registerd : " + texture_id);
       }
-      texture.Apply();
-      texture_id = drawer.RegisterTexture(ref texture);
-      Debug.Log(">>> registerd : " + texture_id);
+      else
+      {
+        return;
+      }
     }
 
     bool is_succeeded;
@@ -68,6 +69,7 @@ public class OverrideCamera : MonoBehaviour
     }
     proj_mat = GL.GetGPUProjectionMatrix(proj_mat, true);
 
+    var cam = GetComponent<Camera>();
     var view_mat = cam.worldToCameraMatrix;
     var vp_mat = proj_mat * view_mat;
     drawer.SetVP(texture_id, vp_mat);
@@ -75,7 +77,7 @@ public class OverrideCamera : MonoBehaviour
 
   void OnRenderImage(RenderTexture _, RenderTexture dst)
   {
-    if (this.texture == null)
+    if (this.texture == null || !this.texture.IsCreated())
     {
       return;
     }

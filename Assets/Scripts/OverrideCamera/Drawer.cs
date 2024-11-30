@@ -11,7 +11,7 @@ public class Drawer : MonoBehaviour
 #else
   [DllImport("drawer_android")]
 #endif
-  private static extern UInt32 register_texture(System.IntPtr texture, Int32 width, Int32 height);
+  private static extern UInt32 register_texture(IntPtr texture, IntPtr depth_buffer_ptr, Int32 width, Int32 height);
 
 #if UNITY_EDITOR
   [DllImport("drawer")]
@@ -39,9 +39,9 @@ public class Drawer : MonoBehaviour
 #endif
   private static extern void unregister_texture(UInt32 id);
 
-  public UInt32 RegisterTexture(ref Texture2D texture)
+  public UInt32 RegisterTexture(ref RenderTexture texture)
   {
-    return register_texture(texture.GetNativeTexturePtr(), texture.width, texture.height);
+    return register_texture(texture.GetNativeTexturePtr(), texture.GetNativeDepthBufferPtr(), texture.width, texture.height);
   }
   public void UnregisterTexture(UInt32 id)
   {
