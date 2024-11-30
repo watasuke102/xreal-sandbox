@@ -60,6 +60,7 @@ public class Drawer : MonoBehaviour
 
   IEnumerator Start()
   {
+    NRDebugger.logLevel = LogLevel.Warning;
     yield return StartCoroutine(draw_coroutine());
   }
   int app_clicked = 0;
