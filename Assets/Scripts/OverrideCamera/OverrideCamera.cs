@@ -17,7 +17,6 @@ class Constant
 #endif
 }
 
-
 public class OverrideCamera : MonoBehaviour
 {
   [SerializeField] EyeType eye_type;
@@ -87,6 +86,7 @@ public class OverrideCamera : MonoBehaviour
 
   void OnPostRender()
   {
+    GL.Clear(true, true, Color.clear);
     GL.IssuePluginEvent(get_render_handler_ptr(), this.texture_id);
   }
 
