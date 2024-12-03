@@ -80,7 +80,7 @@ public class Drawer : MonoBehaviour
     while (true)
     {
       yield return new WaitForEndOfFrame();
-      GL.IssuePluginEvent(get_render_handler_ptr(), 1);
+      // GL.IssuePluginEvent(get_render_handler_ptr(), 1);
     }
   }
 }

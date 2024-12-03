@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using NRKernal;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public enum EyeType
 {
   Left, Center, Right,
 }
+
 
 public class OverrideCamera : MonoBehaviour
 {
@@ -21,12 +23,13 @@ public class OverrideCamera : MonoBehaviour
     this.cam = GetComponent<Camera>();
     var width = this.cam.pixelWidth;
     var height = this.cam.pixelHeight;
-    Debug.Log("[New Camera] " + this.cam.name + ": " + width + ", " + height);
 
     texture = new RenderTexture(width, height, 32, RenderTextureFormat.ARGB32);
     texture.filterMode = FilterMode.Point;
     texture.depthStencilFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.D24_UNorm_S8_UInt;
     texture.Create();
+
+    Debug.Log($"[New Camera] {this.cam.name}: pixel={width}x{height}, tex={this.cam.targetTexture}");
   }
   void Update()
   {
@@ -75,13 +78,15 @@ public class OverrideCamera : MonoBehaviour
     drawer.SetVP(texture_id, vp_mat);
   }
 
-  void OnRenderImage(RenderTexture _, RenderTexture dst)
+#if UNITY_EDITOR
+  [DllImport("drawer")]
+#else
+  [DllImport("drawer_android")]
+#endif
+  private static extern IntPtr get_render_handler_ptr();
+  void OnPostRender()
   {
-    if (this.texture == null || !this.texture.IsCreated())
-    {
-      return;
-    }
-    Graphics.Blit(this.texture, dst);
+    GL.IssuePluginEvent(get_render_handler_ptr(), (int)this.texture_id);
   }
 
   void OnDestroy()
