@@ -8,44 +8,47 @@ public enum EyeType
   Left, Center, Right,
 }
 
+class Constant
+{
+#if UNITY_EDITOR
+  public const string DrawerLibName = "drawer";
+#else
+  public const string DrawerLibName = "drawer_android";
+#endif
+}
+
 
 public class OverrideCamera : MonoBehaviour
 {
-  [SerializeField] Drawer drawer;
   [SerializeField] EyeType eye_type;
   Camera cam;
 
-  RenderTexture texture;
-  UInt32 texture_id = 0;
+  Int32 texture_id = 0;
+
+  [DllImport(Constant.DrawerLibName)]
+  private static extern IntPtr get_render_handler_ptr();
+  [DllImport(Constant.DrawerLibName)]
+  private static extern Int32 register_camera(Int32 width, Int32 height);
+  [DllImport(Constant.DrawerLibName)]
+  private static extern void unregister_camera(Int32 id);
+  [DllImport(Constant.DrawerLibName)]
+  private static extern void set_vp(Int32 id,//
+           float x0, float y0, float z0, float w0, //
+           float x1, float y1, float z1, float w1, //
+           float x2, float y2, float z2, float w2, //
+           float x3, float y3, float z3, float w3  //
+  );
 
   void Start()
   {
     this.cam = GetComponent<Camera>();
     var width = this.cam.pixelWidth;
     var height = this.cam.pixelHeight;
-
-    texture = new RenderTexture(width, height, 32, RenderTextureFormat.ARGB32);
-    texture.filterMode = FilterMode.Point;
-    texture.depthStencilFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.D24_UNorm_S8_UInt;
-    texture.Create();
-
-    Debug.Log($"[New Camera] {this.cam.name}: pixel={width}x{height}, tex={this.cam.targetTexture}");
+    this.texture_id = register_camera(width, height);
+    Debug.Log($"[New Camera] {this.cam.name}: pixel={width}x{height}");
   }
   void Update()
   {
-    if (texture_id == 0)
-    {
-      if (texture.IsCreated())
-      {
-        texture_id = drawer.RegisterTexture(ref texture);
-        Debug.Log(">>> registerd : " + texture_id);
-      }
-      else
-      {
-        return;
-      }
-    }
-
     bool is_succeeded;
     var proj = NRFrame.GetEyeProjectMatrix(out is_succeeded, 0.01f, 100.0f);
     Matrix4x4 proj_mat;
@@ -72,28 +75,26 @@ public class OverrideCamera : MonoBehaviour
     }
     proj_mat = GL.GetGPUProjectionMatrix(proj_mat, true);
 
-    var cam = GetComponent<Camera>();
-    var view_mat = cam.worldToCameraMatrix;
-    var vp_mat = proj_mat * view_mat;
-    drawer.SetVP(texture_id, vp_mat);
+    var view_mat = this.cam.worldToCameraMatrix;
+    var vp = proj_mat * view_mat;
+    set_vp(this.texture_id, //
+      vp[0, 0], vp[0, 1], vp[0, 2], vp[0, 3], //
+      vp[1, 0], vp[1, 1], vp[1, 2], vp[1, 3], //
+      vp[2, 0], vp[2, 1], vp[2, 2], vp[2, 3], //
+      vp[3, 0], vp[3, 1], vp[3, 2], vp[3, 3]  //
+    );
   }
 
-#if UNITY_EDITOR
-  [DllImport("drawer")]
-#else
-  [DllImport("drawer_android")]
-#endif
-  private static extern IntPtr get_render_handler_ptr();
   void OnPostRender()
   {
-    GL.IssuePluginEvent(get_render_handler_ptr(), (int)this.texture_id);
+    GL.IssuePluginEvent(get_render_handler_ptr(), this.texture_id);
   }
 
   void OnDestroy()
   {
     if (texture_id != 0)
     {
-      drawer.UnregisterTexture(texture_id);
+      unregister_camera(texture_id);
     }
   }
 }

@@ -132,26 +132,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 961583873}
-  - component: {fileID: 961583872}
+  - component: {fileID: 961583874}
   m_Layer: 0
-  m_Name: Drawer
+  m_Name: Configure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &961583872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 961583871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aebffce25c05c2a3483b0eb454be5e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &961583873
 Transform:
   m_ObjectHideFlags: 0
@@ -167,11 +155,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1110244266 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1668515225578100, guid: 665d8158924bd2648a94fb3f87691bbb, type: 3}
-  m_PrefabInstance: {fileID: 1554902131}
+--- !u!114 &961583874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961583871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aebffce25c05c2a3483b0eb454be5e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1554902131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269,9 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawer: {fileID: 961583872}
   eye_type: 2
-  rotation_src: {fileID: 1110244266}
 --- !u!114 &1554902137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,9 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawer: {fileID: 961583872}
   eye_type: 0
-  rotation_src: {fileID: 1110244266}
 --- !u!114 &1554902143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,9 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c3e2167a64488b5909e9da21e51975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawer: {fileID: 961583872}
   eye_type: 1
-  rotation_src: {fileID: 1110244266}
 --- !u!1001 &1667743994
 PrefabInstance:
   m_ObjectHideFlags: 0
